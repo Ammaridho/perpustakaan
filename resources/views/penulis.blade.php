@@ -12,13 +12,18 @@
                     <tr>
                         <td>id</td>
                         <td>penulis</td>
+                        <td>Aksi</td>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($penulisBanyak as $penulis)
                     <tr>
-                        <td>{{ $penulis->id }}</td>
-                        <td>{{ $penulis->penulis }}</td>                        
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $penulis->penulis }}</td>           
+                        <td>
+                        <a href="{{ URL::to('penulis/prosesHapus') }}?id={{ $penulis->id }}">hapus</a>    
+                        <a href="{{ URL::to('penulis/edit') }}?id={{ $penulis->id }}">edit</a>   
+                        </td>             
                     </tr>
                     @endforeach
                 </tbody>

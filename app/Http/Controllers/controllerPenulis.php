@@ -13,17 +13,53 @@ class controllerPenulis extends Controller
         return view('penulis', ['penulisBanyak' => $dataPenulis]);
     }
     public function create(){
-        $penulis = new penulis;
-        $penulis->penulis = Input::get('penulis');
+        return view('bikinPenulis');
+    }
+    public function edit(){
+        $idPenulis = Input::get('id');
+        $penulis = penulis::find($idPenulis);
+        return view('editPenulis', ['penulis' => $penulis]);
+    }
+    public function prosesBikin(Request $request){
+        //ngambil data nama penulis dari POST
+        //$_POST['namaPenulis']
+        $namaPenulisBaru = $request->input('namaPenulis');
+        
+        //buat model penulis
+        $penulisBaru = new penulis;
+        $penulisBaru->penulis = $namaPenulisBaru;
+        //INSERT INTO penulis (penulis) VALUES ($namaPenulisBaru);
+        $penulisBaru->save();
+        
+        return $this->read();
+    }
+    public function prosesEdit(){
+        $id = Input::get('id');
+        $namaEdit = Input::get('namaPenulis');
+        //cari di database
+        $penulis = penulis::find($id);
+        $penulis->penulis = $namaEdit;
+
         $penulis->save();
+
+        return $this->read();
+
+    }
+    public function prosesHapus(){
+        $idHapus = Input::get('id');
+        $penulisHapus = penulis::find($idHapus);
+        //DELETE penulis WHERE id=$idHapus
+        $penulisHapus->delete();
+
+        return $this->read();
     }
     public function update(){
         $penulis = penulis::find(Input::get('id'));
         $penulis->penulis = Input::get('penulis');
         $penulis->save();
     }
-    public function delete(){
-        $penulis = penulis::find(Input::get('id'));
-        $penulis->delete();
-    }
+    // public function delete(){
+    //     $penulis = penulis::find(Input::get('id'));
+    //     $penulis->delete();
+    // }
 }
